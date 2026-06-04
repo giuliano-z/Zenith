@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     "knox",
     "corsheaders",
     "apps.users",
+    "apps.accounts",
     "apps.common",
 ]
 
