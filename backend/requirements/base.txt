@@ -1,4 +1,5 @@
 Django==5.2.14
+argon2-cffi==25.1.0
 djangorestframework==3.17.1
 django-rest-knox==5.0.4
 psycopg[binary]==3.3.4
