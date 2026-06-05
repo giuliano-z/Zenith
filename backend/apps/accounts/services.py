@@ -91,9 +91,12 @@ def get_balance_by_currency(*, user) -> dict[str, Decimal]:
     soportada con la suma de balances de sus cuentas. Las monedas sin cuentas activas
     no aparecen en el resultado.
     """
+    # ADR-004: import local para evitar el ciclo accounts ↔ transactions.
+    from apps.transactions.services import get_transaction_sum_for_account
+
     totals: dict[str, Decimal] = {}
     for account in get_accounts(user=user):
-        balance = get_balance(account)
+        balance = get_balance(account, get_transaction_sum_for_account(account.id))
         totals[account.currency] = totals.get(account.currency, Decimal("0")) + balance
     return totals
 

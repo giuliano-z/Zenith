@@ -5,3 +5,4 @@ django-rest-knox==5.0.4
 psycopg[binary]==3.3.4
 python-decouple==3.8
 django-cors-headers==4.9.0
+python-dateutil==2.9.0.post0

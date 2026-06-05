@@ -33,7 +33,12 @@ class AccountSerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
     def get_balance(self, account: Account):
-        return services.get_balance(account)
+        # ADR-004: el caller inyecta la suma neta de transacciones. Import local para
+        # evitar el ciclo accounts ↔ transactions (transactions importa Account).
+        from apps.transactions.services import get_transaction_sum_for_account
+
+        transaction_sum = get_transaction_sum_for_account(account.id)
+        return services.get_balance(account, transaction_sum)
 
 
 class AccountCreateSerializer(serializers.Serializer):

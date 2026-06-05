@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "apps.users",
     "apps.accounts",
+    "apps.transactions",
     "apps.common",
 ]
 
