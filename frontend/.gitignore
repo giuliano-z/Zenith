@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+.vite
 *.local
 
 # Variables de entorno (no commitear secretos; .env.example sí va)
