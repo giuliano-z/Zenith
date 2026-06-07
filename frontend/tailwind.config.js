@@ -3,6 +3,8 @@
  * Derivado de CLAUDE.austral.md (v1.4). Dark mode only.
  * NUNCA hardcodear hex en componentes: usar estas clases.
  */
+import tailwindcssAnimate from 'tailwindcss-animate'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
@@ -55,5 +57,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [tailwindcssAnimate],
 }
