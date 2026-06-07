@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "apps.accounts",
     "apps.transactions",
     "apps.currency",
+    "apps.dashboard",
     "apps.common",
 ]
 
