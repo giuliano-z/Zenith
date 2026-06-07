@@ -17,7 +17,7 @@ from rest_framework.test import APIClient
 from apps.accounts.models import AccountType, Currency
 from apps.accounts.services import create_account
 from apps.transactions import services
-from apps.transactions.models import Transaction
+from apps.transactions.models import Category, Transaction
 
 User = get_user_model()
 
@@ -175,6 +175,43 @@ class TestInstallment:
         )
         fechas = sorted(t.date for t in purchase.transactions.all())
         assert fechas == [date(2026, 6, 1), date(2026, 7, 1), date(2026, 8, 1)]
+
+
+# --------------------------------------------------------------------------- #
+# RF-014 — listado de categorías (list_categories)
+# --------------------------------------------------------------------------- #
+class TestRF014ListCategories:
+    def test_incluye_categorias_del_sistema(self, user):
+        # Given: categorías del sistema sembradas por migración (user=None)
+        # When: el usuario lista categorías
+        result = services.list_categories(user=user)
+        # Then: ve las del sistema
+        assert result.count() > 0
+        assert all(c.user_id is None for c in result)
+
+    def test_filtra_por_category_type(self, user):
+        result = services.list_categories(user=user, category_type="income")
+        assert result.count() > 0
+        assert all(c.category_type == "income" for c in result)
+
+    def test_no_ve_categorias_privadas_de_otro_usuario(self, user, other_user):
+        # Given: other_user tiene una categoría propia
+        ajena = Category.objects.create(
+            name="Categoría privada de Ana",
+            category_type="expense",
+            user=other_user,
+        )
+        # When: user lista sus categorías
+        result = services.list_categories(user=user)
+        # Then: no aparece la ajena (RNF-005)
+        assert ajena.id not in [c.id for c in result]
+
+    def test_incluye_categorias_propias(self, user):
+        propia = Category.objects.create(
+            name="Categoría propia", category_type="expense", user=user
+        )
+        result = services.list_categories(user=user)
+        assert propia.id in [c.id for c in result]
 
 
 # --------------------------------------------------------------------------- #

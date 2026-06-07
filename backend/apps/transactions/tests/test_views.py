@@ -341,3 +341,25 @@ class TestRF011List:
         account_ids = {t["account"] for t in response.data["results"]}
         assert account_b.id not in account_ids
         assert account_ids == {account_a.id}
+
+
+# --------------------------------------------------------------------------- #
+# RF-014 — endpoint de categorías
+# --------------------------------------------------------------------------- #
+class TestRF014Categories:
+    def test_get_devuelve_200_con_categorias_del_sistema(self, auth_a):
+        response = auth_a.get(reverse("categories:category-list"))
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.data) > 0  # las sembradas por migración
+        assert {"id", "name", "category_type", "color"} <= set(response.data[0].keys())
+
+    def test_filtra_por_category_type(self, auth_a):
+        response = auth_a.get(
+            reverse("categories:category-list"), {"category_type": "income"}
+        )
+        assert response.status_code == status.HTTP_200_OK
+        assert all(c["category_type"] == "income" for c in response.data)
+
+    def test_get_sin_token_devuelve_401(self, client):
+        response = client.get(reverse("categories:category-list"))
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
