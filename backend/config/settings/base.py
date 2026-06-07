@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "apps.users",
     "apps.accounts",
     "apps.transactions",
+    "apps.currency",
     "apps.common",
 ]
 
@@ -109,3 +110,7 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# RF-017/RF-018: proveedor de tipos de cambio USD/ARS (DolarAPI).
+DOLAR_API_BASE_URL = config("DOLAR_API_BASE_URL", default="https://dolarapi.com/v1/ar")
+DOLAR_API_TIMEOUT = config("DOLAR_API_TIMEOUT", default=5, cast=int)
