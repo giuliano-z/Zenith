@@ -2,10 +2,11 @@ import { createBrowserRouter } from 'react-router-dom'
 
 import { AppShell } from '@/components/layout/AppShell'
 import { Accounts } from '@/pages/Accounts'
+import { Currency } from '@/pages/Currency'
 import { Dashboard } from '@/pages/Dashboard'
 import { Login } from '@/pages/Login'
 import { NotFound } from '@/pages/NotFound'
-import { Placeholder } from '@/pages/Placeholder'
+import { SharedExpenses } from '@/pages/SharedExpenses'
 import { Transactions } from '@/pages/Transactions'
 
 import { ProtectedRoute } from './ProtectedRoute'
@@ -24,8 +25,8 @@ export const router = createBrowserRouter([
           { path: '/', element: <Dashboard /> },
           { path: '/accounts', element: <Accounts /> },
           { path: '/transactions', element: <Transactions /> },
-          { path: '/currency', element: <Placeholder title="Tipo de cambio" /> },
-          { path: '/shared', element: <Placeholder title="Gastos compartidos" /> },
+          { path: '/currency', element: <Currency /> },
+          { path: '/shared', element: <SharedExpenses /> },
         ],
       },
     ],
