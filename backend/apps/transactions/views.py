@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 from apps.common.pagination import StandardPagination
 from apps.transactions import services
 from apps.transactions.serializers import (
+    CategorySerializer,
     InstallmentCreateSerializer,
     TransactionCreateSerializer,
     TransactionSerializer,
@@ -26,6 +27,20 @@ def _forbidden():
         {"detail": "No tenés permiso para operar sobre esta cuenta."},
         status=status.HTTP_403_FORBIDDEN,
     )
+
+
+class CategoryListView(APIView):
+    """RF-014: listado de categorías visibles para el usuario (GET).
+
+    Read-only y sin paginar (son pocas). Filtra opcionalmente por `category_type`.
+    """
+
+    def get(self, request):
+        qs = services.list_categories(
+            user=request.user,
+            category_type=request.query_params.get("category_type"),
+        )
+        return Response(CategorySerializer(qs, many=True).data)
 
 
 class TransactionListCreateView(APIView):

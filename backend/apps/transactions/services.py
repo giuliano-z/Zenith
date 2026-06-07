@@ -13,12 +13,12 @@ from decimal import Decimal
 
 from dateutil.relativedelta import relativedelta
 from django.db import transaction as db_transaction
-from django.db.models import Case, F, Sum, When
+from django.db.models import Case, F, Q, Sum, When
 from django.db.models import DecimalField as DjDecimal
 from django.utils import timezone
 
 from apps.accounts import services as account_services
-from apps.transactions.models import InstallmentPurchase, Transaction
+from apps.transactions.models import Category, InstallmentPurchase, Transaction
 
 # Reexportamos la excepción de accounts: ownership de cuenta es una sola fuente de
 # verdad (RS-004). Las views de transactions atrapan este mismo símbolo.
@@ -212,6 +212,19 @@ def list_transactions(
     return qs.order_by("-date", "-created_at")
 
 
+def list_categories(*, user, category_type: str | None = None):
+    """Categorías visibles para el usuario (RF-014, RF-015).
+
+    Incluye las del sistema (user=None, sembradas por migración) y las propias del
+    usuario; nunca las privadas de otro (RNF-005). Filtra por `category_type` si
+    viene. Orden por nombre. Read-only: alimenta el selector de categorías del front.
+    """
+    qs = Category.objects.filter(Q(user=None) | Q(user=user))
+    if category_type:
+        qs = qs.filter(category_type=category_type)
+    return qs.order_by("name")
+
+
 __all__ = [
     "AccountAccessDeniedError",
     "AccountNotFoundError",
@@ -220,4 +233,5 @@ __all__ = [
     "create_transfer",
     "create_installment",
     "list_transactions",
+    "list_categories",
 ]

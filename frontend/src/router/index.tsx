@@ -6,6 +6,7 @@ import { Dashboard } from '@/pages/Dashboard'
 import { Login } from '@/pages/Login'
 import { NotFound } from '@/pages/NotFound'
 import { Placeholder } from '@/pages/Placeholder'
+import { Transactions } from '@/pages/Transactions'
 
 import { ProtectedRoute } from './ProtectedRoute'
 
@@ -22,7 +23,7 @@ export const router = createBrowserRouter([
         children: [
           { path: '/', element: <Dashboard /> },
           { path: '/accounts', element: <Accounts /> },
-          { path: '/transactions', element: <Placeholder title="Transacciones" /> },
+          { path: '/transactions', element: <Transactions /> },
           { path: '/currency', element: <Placeholder title="Tipo de cambio" /> },
           { path: '/shared', element: <Placeholder title="Gastos compartidos" /> },
         ],

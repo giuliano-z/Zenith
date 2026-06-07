@@ -6,7 +6,20 @@ negocio intervenga. El `user` y el signo del balance nunca entran por el body.
 """
 from rest_framework import serializers
 
-from apps.transactions.models import Transaction
+from apps.transactions.models import Category, Transaction
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    """Representación pública de una categoría (output, RF-014).
+
+    Alimenta el selector de categorías del cliente. Read-only: las categorías del
+    sistema se siembran por migración y no se crean por API en el MVP.
+    """
+
+    class Meta:
+        model = Category
+        fields = ("id", "name", "category_type", "color")
+        read_only_fields = fields
 
 
 class TransactionSerializer(serializers.ModelSerializer):
