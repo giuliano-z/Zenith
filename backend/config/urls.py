@@ -9,4 +9,5 @@ urlpatterns = [
     path("api/transactions/", include("apps.transactions.urls")),  # Fase 4 (TRANSACTIONS)
     path("api/currency/", include("apps.currency.urls")),  # Fase 5 (CURRENCY)
     path("api/dashboard/", include("apps.dashboard.urls")),  # Fase 6 (DASHBOARD)
+    path("api/shared/", include("apps.shared.urls")),  # Fase 7 (SHARED)
 ]
