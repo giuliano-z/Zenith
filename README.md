@@ -4,6 +4,7 @@
 Self-hosteable · Open source · AGPL-3.0
 
 ---
+Estado: en pausa. Backend (AUTH, ACCOUNTS, TRANSACTIONS) funcional con tests; frontend parcial.
 
 ## Descripción
 
